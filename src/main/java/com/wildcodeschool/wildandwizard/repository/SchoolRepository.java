@@ -32,6 +32,10 @@ public class SchoolRepository {
             return schools;
         } catch (SQLException e) {
             e.printStackTrace();
+         } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
@@ -56,6 +60,10 @@ public class SchoolRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+         } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
@@ -83,6 +91,10 @@ public class SchoolRepository {
             return schools;
         } catch (SQLException e) {
             e.printStackTrace();
+         } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
