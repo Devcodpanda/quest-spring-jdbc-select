@@ -1,6 +1,8 @@
 package com.wildcodeschool.wildandwizard.repository;
 
 import com.wildcodeschool.wildandwizard.entity.School;
+import com.wildcodeschool.wildandwizard.util.JdbcUtils;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +15,16 @@ public class SchoolRepository {
 
     public List<School> findAll() {
 
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
         try {
-            java.sql.Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statement = connection.prepareStatement(
                     "SELECT * FROM school;"
             );
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             List<School> schools = new ArrayList<>();
 
@@ -32,7 +38,7 @@ public class SchoolRepository {
             return schools;
         } catch (SQLException e) {
             e.printStackTrace();
-         } finally {
+        } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
@@ -42,15 +48,19 @@ public class SchoolRepository {
 
     public School findById(Long id) {
 
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
         try {
-            java.sql.Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM school WHERE id = ?;"
             );
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
@@ -60,7 +70,7 @@ public class SchoolRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-         } finally {
+        } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
@@ -69,16 +79,18 @@ public class SchoolRepository {
     }
 
     public List<School> findByCountry(String country) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            java.sql.Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM school WHERE country LIKE ?;"
             );
             statement.setString(1, country);
-            ResultSet resultSet = statement.executeQuery();
+           resultSet = statement.executeQuery();
 
             List<School> schools = new ArrayList<>();
 
@@ -91,7 +103,7 @@ public class SchoolRepository {
             return schools;
         } catch (SQLException e) {
             e.printStackTrace();
-         } finally {
+        } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
